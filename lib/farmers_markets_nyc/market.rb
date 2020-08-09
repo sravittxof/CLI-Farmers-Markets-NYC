@@ -11,7 +11,11 @@ class Market
 
       def attrs_from_hash(attrs)
         attrs.each do |k, v|
-            send("#{k}=", v)
+            if k.to_s[0] == ":"
+                next
+            else
+                send("#{k}=", v)
+            end
         end
     end
 
@@ -27,6 +31,18 @@ class Market
         markets.each do |attrs|
             new(attrs)
         end 
+    end
+
+    #def self.unique_attribute_values(att)
+     #   self.all.collect(self.att).uniq
+    #end
+
+    def self.get_attribute_values(attribute)
+        attributes = []
+        Market.all.find do |market|
+            attributes << "#{market}"[attribute]
+        end
+        attributes.uniq
     end
 
 end
