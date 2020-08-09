@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/farmers_markets_nyc"
+
+#API.new.get_markets_data
+#CLI.new.call
