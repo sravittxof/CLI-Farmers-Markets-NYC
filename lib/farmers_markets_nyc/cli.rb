@@ -1,4 +1,4 @@
-
+require 'pry'
 class CLI
 
     def call
@@ -43,30 +43,30 @@ class CLI
         get_user_input
 
         if @input.to_i == 1
-            counter = 1
-            boroughs = Market.get_attribute_values("borough")
-            boroughs.each do |borough|
-                puts "#{counter}. #{borough}"
-                counter += 1
-            end
+            find_markets_by_criteria("borough") { handle_find_markets_by_criteria }
         elsif @input.to_i == 2
-            counter = 1
-            days = Market.get_attribute_values("daysoperation")
-            days.each do |day|
-                puts "#{counter}. #{day}"
-                counter += 1
-            end
+            find_markets_by_criteria("daysoperation") { handle_find_markets_by_criteria }
         elsif @input.to_i == 3
-            counter = 1
-            ebt = Market.get_attribute_values("accepts_ebt")
-            ebt.each do |ebt|
-                puts "#{counter}. #{ebt}"
-                counter += 1
-            end
+            find_markets_by_criteria("accepts_ebth") { handle_find_markets_by_criteria }
         else
             puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
         end
     end
+
+
+    def find_markets_by_criteria(criteria)
+        criteria_values = []
+        Market.self.all.each do |market|
+            market[criteria] << criteria_values
+        end
+        criteria_values.uniq!
+        yield
+    end
+
+    def handle_find_markets_by_criteria
+
+    end
+
 
     def list_all_markets
         counter = 1
@@ -129,15 +129,20 @@ class CLI
 
 end
 
-=begin
-#   search_creator
-#   
-#   
-#   def enter_criteria(criteria) #this is a number corresponding to an attribute
-#              
-#        Market.all.select { |market| 
-#   end
-#
-#   
-#
+
+=begin            
+        elsif @input.to_i == 2
+            counter = 1
+            days = Market.get_attribute_values("daysoperation")
+            days.each do |day|
+                puts "#{counter}. #{day}"
+                counter += 1
+            end
+        elsif @input.to_i == 3
+            counter = 1
+            ebt = Market.get_attribute_values("accepts_ebt")
+            ebt.each do |ebt|
+                puts "#{counter}. #{ebt}"
+                counter += 1
+            end
 =end
