@@ -10,50 +10,134 @@ class CLI
     end
 
     def get_user_input
-        @input = gets.strip.downcase
+        @input = gets.chomp.strip.downcase
     end
 
     def main_menu
         puts "1. Find farmers markets"
-        puts "2. List all markets"
+        puts "2. List all farmers markets"
         puts "Type 'exit' to exit the program"
         yield
     end
 
     def handle_main_menu
         get_user_input
-        input = @input
-        if input === "1"
-            search_markets { handle_search_markets }
-        elsif input === "2"
-            list_all_markets { handle list_all_markets }
+        if @input.to_i == 1
+            find_markets { handle_find_markets }
+        elsif @input.to_i == 2
+            list_all_markets { handle_list_all_markets }
+        else
+            puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
+        end
+    end
+
+    def find_markets
+        puts "Please select a filter."
+        puts "1. Borough"
+        puts "2. Days of Operation"
+        puts "3. Accepts EBT"
+        yield
+    end
+
+    def handle_find_markets
+        get_user_input
+
+        if @input.to_i == 1
+            counter = 1
+            boroughs = Market.get_attribute_values("borough")
+            boroughs.each do |borough|
+                puts "#{counter}. #{borough}"
+                counter += 1
+            end
+        elsif @input.to_i == 2
+            counter = 1
+            days = Market.get_attribute_values("daysoperation")
+            days.each do |day|
+                puts "#{counter}. #{day}"
+                counter += 1
+            end
+        elsif @input.to_i == 3
+            counter = 1
+            ebt = Market.get_attribute_values("accepts_ebt")
+            ebt.each do |ebt|
+                puts "#{counter}. #{ebt}"
+                counter += 1
+            end
+        else
+            puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
         end
     end
 
     def list_all_markets
+        counter = 1
         Market.all.each do |market|
-            puts "#{market.name}"
-            puts "#{market.streetaddress}"
-            puts "#{market.borough}"
+            puts "#{counter}  #{market.marketname}"
+            puts "      #{market.streetaddress}"
+            puts "      #{market.borough}"
+            counter +=1
         end
-            puts "1. Go back to main menu"
+            puts "Enter the number next to the market to see more info"
+            puts "Type 'menu' to go back to main menu"
             puts "Type 'exit' to exit program"
         yield
     end
 
     def handle_list_all_markets
         get_user_input
-        input = @input
-        if input === "1"
+        if (@input.to_i >=1) && (@input.to_i <= Market.all.count) == true
+            show_individual_market_info(@input) { handle_show_individual_market_info }
+        elsif @input == "menu"
             back_to_main_menu
-        elsif input === "2"
-            puts ""
+        else
+            puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
         end
     end
-    
+  
+    def show_individual_market_info(input)
+        @input = input.to_i
+        @input  -= 1
+        selected_market = Market.all[@input]
+        puts "#{selected_market.marketname}"
+        puts "#{selected_market.streetaddress}"
+        puts "#{selected_market.borough}"
+        puts "Days of operation - #{selected_market.daysoperation}"
+        puts "Hours of operation - #{selected_market.hoursoperations}"
+        puts "Accepts EBT cards - #{selected_market.accepts_ebt}"
+
+        puts "1. Go back to list of all markets."
+        puts "2. Go back to the main menu."
+        puts "Type 'exit' to exit the program."
+        yield
+    end
+
+    def handle_show_individual_market_info
+        get_user_input
+        if @input.to_i == 1
+            list_all_markets { handle_list_all_markets }
+        elsif @input.to_i == 2
+            back_to_main_menu
+        else
+            puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
+        end
+    end
+
     def back_to_main_menu
         main_menu { handle_main_menu }
     end
 
 
+
 end
+
+=begin
+#   search_creator
+#   
+#   
+#   def enter_criteria(criteria) #this is a number corresponding to an attribute
+#              
+#        Market.all.select { |market| 
+#   end
+#
+#   
+#
+=end
