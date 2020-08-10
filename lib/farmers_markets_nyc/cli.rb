@@ -98,7 +98,7 @@ class CLI
 
     def handle_list_all_markets
         get_user_input
-        if @input == (@input.to_i >=1) && (@input.to_i <= Market.all.count) == true
+        if (@input.to_i >=1) && (@input.to_i <= Market.all.count) == true
             show_individual_market_info(@input) { handle_show_individual_market_info }
         elsif @input == "menu"
             back_to_main_menu
