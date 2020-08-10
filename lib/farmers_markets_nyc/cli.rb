@@ -32,7 +32,6 @@ class CLI
         elsif @input.to_i == 2
             list_all_markets { handle_list_all_markets }
         else
-            unless @input == "exit" ? do
             puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program.\n"
         end
     end
@@ -54,7 +53,6 @@ class CLI
         if @input == "menu"
             back_to_main_menu
         else
-            unless @input == "exit" ? do
             puts "Sorry, I don't understand. Please make a valid selection.\n"
         end
         #if @input.to_i == 1

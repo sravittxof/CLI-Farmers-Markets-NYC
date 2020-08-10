@@ -34,15 +34,7 @@ class Market
         end 
     end
 
-    def self.find_markets_by_criteria(criteria)
-        criteria.to_s
-        criteria_values = []
-        Market.all.each do |market|
-            market.criteria << criteria_values
-        end
-        criteria_values.uniq!
-        yield
-    end
+
 
     
 
