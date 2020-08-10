@@ -3,6 +3,7 @@ require 'open-uri'
 require 'net/http'
 require 'json'
 require 'dotenv/load'
+require "irb"
 
 require_relative "farmers_markets_nyc/version"
 require_relative "farmers_markets_nyc/api"
@@ -17,6 +18,5 @@ module FarmersMarketsNyc
 end
 
 
-test_object = API.new.get_markets_data
-puts test_object[0].keys.join(" :")
+
 

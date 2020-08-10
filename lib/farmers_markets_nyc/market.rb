@@ -1,4 +1,5 @@
 
+
 class Market
 
     attr_accessor :borough, :marketname, :streetaddress, :latitude, :longitude, :daysoperation, :hoursoperations, :seasondates, :accepts_ebt, :open_year_round, :location_point
@@ -33,16 +34,16 @@ class Market
         end 
     end
 
-    #def self.unique_attribute_values(att)
-     #   self.all.collect(self.att).uniq
-    #end
-
-    def self.get_attribute_values(attribute)
-        attributes = []
-        Market.all.find do |market|
-            attributes << "#{market}"[attribute]
+    def self.find_markets_by_criteria(criteria)
+        criteria.to_s
+        criteria_values = []
+        Market.all.each do |market|
+            market.criteria << criteria_values
         end
-        attributes.uniq
+        criteria_values.uniq!
+        yield
     end
+
+    
 
 end

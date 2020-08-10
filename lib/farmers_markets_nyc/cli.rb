@@ -49,14 +49,13 @@ class CLI
         elsif @input.to_i == 3
             find_markets_by_criteria("accepts_ebth") { handle_find_markets_by_criteria }
         else
-            puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
+            Market.puts "Sorry, I don't understand. Please make a valid selection or type 'exit' to exit the program."
         end
     end
 
-
     def find_markets_by_criteria(criteria)
         criteria_values = []
-        Market.self.all.each do |market|
+        Market.all.each do |market|
             market[criteria] << criteria_values
         end
         criteria_values.uniq!
@@ -64,7 +63,7 @@ class CLI
     end
 
     def handle_find_markets_by_criteria
-
+        puts "working"
     end
 
 
@@ -125,24 +124,4 @@ class CLI
         main_menu { handle_main_menu }
     end
 
-
-
 end
-
-
-=begin            
-        elsif @input.to_i == 2
-            counter = 1
-            days = Market.get_attribute_values("daysoperation")
-            days.each do |day|
-                puts "#{counter}. #{day}"
-                counter += 1
-            end
-        elsif @input.to_i == 3
-            counter = 1
-            ebt = Market.get_attribute_values("accepts_ebt")
-            ebt.each do |ebt|
-                puts "#{counter}. #{ebt}"
-                counter += 1
-            end
-=end
